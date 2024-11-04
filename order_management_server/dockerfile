@@ -1,0 +1,33 @@
+# Using a specific node version based on Debian Bullseye
+FROM node:20.13-bullseye
+
+# Setting an environment variable to minimize issues with automated frontend interactions during package installations
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Updating package lists and installing packages in one step to keep the Docker image clean and compact
+RUN apt-get update && apt-get install -y \
+    nano \
+    wget \
+    netcat
+    #default-mysql-server   # Note: "default-mysql-server" might not be the correct package name, usually it's "mysql-server"
+
+# Install PM2 globally using npm
+RUN npm install pm2 -g
+
+# Create a directory to hold the application code inside the image
+RUN mkdir -p /var/www/order_management_server
+
+# Copy the current directory contents into the container at /var/www/inservisync_server
+COPY . /var/www/order_management_server/
+
+# Set the working directory to /var/www/inservisync_server
+WORKDIR /var/www/order_management_server
+
+# Adding the entrypoint script and making it executable
+# Note: If your directory structure is `./docker/script/entrypoint.sh`, the `chmod` should reflect the correct path
+#COPY ./docker/script/entrypoint.sh /scripts/entrypoint.sh
+RUN chmod +x ./docker/script/entrypoint.sh
+	    
+# # Setting the entrypoint to run your script
+# # Removed '&' as it is not necessary and incorrect syntax for Docker ENTRYPOINT
+CMD ["./docker/script/entrypoint.sh"]

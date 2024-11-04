@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mariadb:10.4.33
+    environment:
+      MYSQL_ROOT_PASSWORD: password!
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    expose:
+      - 3306
+    container_name: mysql
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.10
+
+  backend:
+    build:
+      context: .
+      dockerfile: dockerfile
+    restart: always
+    environment:
+      PORT: ${PORT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      HOST_NAME: ${HOST_NAME}
+    depends_on:
+      - mysql
+    ports:
+      - 5001:5001
+    container_name: backend
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.20
+
+  front:
+    build:
+     context: ../order_management_client
+     dockerfile: dockerfile
+    restart: always
+    depends_on:
+      - backend
+    container_name: front
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.30
+    ports:
+      - 80:80
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
+
+volumes:
+  mysql_data:

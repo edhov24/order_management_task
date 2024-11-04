@@ -1,0 +1,30 @@
+FROM node:20.13-bullseye
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+#Update && install dependencies packages
+RUN apt-get update && \
+        apt-get install -y nano \
+        nginx
+
+#copy everything into the container
+RUN mkdir -p /var/www/order_management_client
+COPY . /var/www/order_management_client
+WORKDIR /var/www/order_management_client
+
+# Remove default Nginx configuration and enable new configuration
+RUN rm /etc/nginx/sites-available/default && \
+    rm /etc/nginx/sites-enabled/default
+
+# Ensure correct path for the COPY command
+COPY docker/nginx/nginx.conf /etc/nginx/sites-available/nginx.conf
+
+# Enable the new site by creating a symlink
+RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf
+
+#Remove default config and add new on Nginx
+RUN chmod +x ./docker/script/entrypoint.sh
+
+# # Setting the entrypoint to run your script
+# # Removed '&' as it is not necessary and incorrect syntax for Docker ENTRYPOINT
+CMD ["./docker/script/entrypoint.sh"]

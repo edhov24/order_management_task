@@ -1,6 +1,3 @@
-<h3 align="left">Erida Technologies</h3>
-<p align="left"> <a href="https://www.eridatechnologies.com" target="_blank" rel="noreferrer"> <img src="https://eridatechnologies.com/wp-content/uploads/2023/03/Favicon.png" alt="bash" width="40" height="40"/> </a> </p>
-
 ## Installation and Running
 
 **Navigate to the `order_management_server` directory where the `docker-compose.yml` file is located:**

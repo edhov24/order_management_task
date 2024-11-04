@@ -26,5 +26,4 @@ RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.c
 RUN chmod +x ./docker/script/entrypoint.sh
 
 # # Setting the entrypoint to run your script
-# # Removed '&' as it is not necessary and incorrect syntax for Docker ENTRYPOINT
 CMD ["./docker/script/entrypoint.sh"]

@@ -15,7 +15,8 @@ sudo systemctl stop MySQL
 cd path/to/order_management_server
 
 **Run Docker Compose to create and start the containers:**
-docker-compose up
+```docker-compose up```
+After the Docker build is complete (about 5 minutes), open `http://localhost` in your browser.
 
 ### Order Management Project
 *This project represents an order management system consisting of two main components: the server and the client. The server uses Docker to deploy the application, including a MySQL database and an Nginx web server on the client.*

@@ -1,4 +1,15 @@
-## Installation and Running
+## Attention
+Before running Docker containers, please ensure that you do not have Nginx or MySQL processes running on your system to avoid conflicts.
+
+**Command for Linux**
+To stop Nginx and MySQL, run the following commands.
+```bash
+sudo systemctl stop nginx
+sudo systemctl stop MySQL
+```
+
+
+### Installation and Running
 
 **Navigate to the `order_management_server` directory where the `docker-compose.yml` file is located:**
 cd path/to/order_management_server
@@ -6,10 +17,10 @@ cd path/to/order_management_server
 **Run Docker Compose to create and start the containers:**
 docker-compose up
 
-# Order Management Project
+### Order Management Project
 *This project represents an order management system consisting of two main components: the server and the client. The server uses Docker to deploy the application, including a MySQL database and an Nginx web server on the client.*
 
-## Project Structure
+# Project Structure
 
 *The project has the following directory structure:*
 
@@ -31,7 +42,7 @@ docker-compose up
   - `Dockerfile`
 
 
-## File Descriptions
+### File Descriptions
 
 order_management_server/
 
